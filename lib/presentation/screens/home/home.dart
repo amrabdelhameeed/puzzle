@@ -48,14 +48,6 @@ class Home extends StatelessWidget {
                           fontSize: 20,
                           text: "Shuffle Tiles",
                         )),
-                    CustomElevatedButton(
-                        onPressed: () {
-                          cubit.generateTilesforTest();
-                        },
-                        widget: const CustomTextWidget(
-                          fontSize: 20,
-                          text: "Shuffle Tiles",
-                        )),
                   ],
                 ),
               ),
