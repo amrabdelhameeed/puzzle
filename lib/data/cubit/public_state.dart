@@ -16,3 +16,7 @@ class PublicLoaded extends PublicState {
   final List<TileModel> listOfTiles;
   PublicLoaded(this.listOfTiles);
 }
+
+class NewScoreCreated extends PublicState {}
+
+class DeleteAllScoresState extends PublicState {}

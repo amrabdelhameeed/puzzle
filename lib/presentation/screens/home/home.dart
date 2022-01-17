@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puzzle_test_12_1_2022/constants/strings.dart';
+import 'package:puzzle_test_12_1_2022/data/models/score_model.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/constant_widgets/custom_elevated_button.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/constant_widgets/custom_text_widget.dart';
+import 'package:puzzle_test_12_1_2022/presentation/screens/home/constant_widgets/margin_widget.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/widgets/moves_timer.dart';
+import 'package:puzzle_test_12_1_2022/presentation/screens/home/widgets/my_drawer.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/widgets/snack_bar_score.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/widgets/tiles_container.dart';
 import '../../../data/cubit/public_cubit.dart';
@@ -11,6 +15,7 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<PublicCubit, PublicState>(
       listener: (context, state) {
@@ -29,14 +34,26 @@ class Home extends StatelessWidget {
         var cubit = PublicCubit.get(context);
         return SafeArea(
           child: Scaffold(
+            key: scaffoldKey,
+            drawer: MyDrawer(cubit: cubit),
             body: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
                 child: Column(
                   children: [
-                    const CustomTextWidget(
-                      fontSize: 40,
-                      text: "Puzzle",
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              scaffoldKey.currentState!.openDrawer();
+                            },
+                            icon: const Icon(Icons.list)),
+                        const CustomTextWidget(
+                          fontSize: 40,
+                          text: "Puzzle",
+                        ),
+                      ],
                     ),
                     TilesContainer(cubit: cubit),
                     MovesTimer(cubit: cubit),
@@ -48,6 +65,15 @@ class Home extends StatelessWidget {
                           fontSize: 20,
                           text: "Shuffle Tiles",
                         )),
+                    MarginWidget(isVertical: true, dividedMargin: 20),
+                    CustomElevatedButton(
+                        onPressed: () {
+                          cubit.generateTilesforTest();
+                        },
+                        widget: const CustomTextWidget(
+                          fontSize: 20,
+                          text: "Test Score DB",
+                        ))
                   ],
                 ),
               ),

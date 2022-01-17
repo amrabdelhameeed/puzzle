@@ -16,8 +16,9 @@ class AppRouter {
       case home:
         return MaterialPageRoute(builder: (_) {
           return BlocProvider(
-            create: (context) =>
-                PublicCubit(generatedTiles: generatedTiles!)..tilesListCubit(),
+            create: (context) => PublicCubit(generatedTiles: generatedTiles!)
+              ..tilesListCubit()
+              ..getAllScores(),
             child: Home(),
           );
         });
