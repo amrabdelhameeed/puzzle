@@ -25,8 +25,17 @@ class Home extends StatelessWidget {
             cubit.timerFun(TimerModes.stop);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 duration: const Duration(hours: 1),
-                content:
-                    SnackBarScore(cubit: cubit, state: state, size: size)));
+                content: SnackBarScore(
+                    cubit: cubit,
+                    seconds: state.seconds,
+                    firstScore: cubit.users.isNotEmpty
+                        ? cubit.users.first
+                        : Score(
+                            dateTime: DateTime.now().toString(),
+                            moves: 100000,
+                            seconds: 100000),
+                    moves: state.moves,
+                    size: size)));
           }
         }
       },
@@ -62,16 +71,16 @@ class Home extends StatelessWidget {
                           cubit.generateNewTiles();
                         },
                         widget: const CustomTextWidget(
-                          fontSize: 20,
+                          fontSize: 25,
                           text: "Shuffle Tiles",
                         )),
-                    MarginWidget(isVertical: true, dividedMargin: 20),
+                    MarginWidget(isVertical: true, dividedMargin: 10),
                     CustomElevatedButton(
                         onPressed: () {
                           cubit.generateTilesforTest();
                         },
                         widget: const CustomTextWidget(
-                          fontSize: 20,
+                          fontSize: 25,
                           text: "Test Score DB",
                         ))
                   ],

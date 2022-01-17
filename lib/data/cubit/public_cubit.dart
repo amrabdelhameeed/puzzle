@@ -124,7 +124,7 @@ class PublicCubit extends Cubit<PublicState> {
     await dba.getAllscores().then((value) {
       users = [];
       value.asMap().forEach((i, value) {
-        if (i < 10) {
+        if (i < 6) {
           users.add(value);
         }
       });
@@ -148,6 +148,7 @@ class PublicCubit extends Cubit<PublicState> {
   void deleteAllScores() {
     db.deleteAllscores();
     emit(DeleteAllScoresState());
+    db = DBhelper.instance;
     getAllScores();
   }
 }

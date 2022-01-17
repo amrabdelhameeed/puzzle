@@ -8,6 +8,10 @@ class CustomElevatedButton extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: onPressed, child: widget);
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: widget,
+      style: ElevatedButton.styleFrom(primary: Colors.black),
+    );
   }
 }

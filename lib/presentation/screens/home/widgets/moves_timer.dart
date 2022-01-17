@@ -6,7 +6,7 @@ class MovesTimer extends StatelessWidget {
   MovesTimer({Key? key, required this.cubit, this.moves, this.seconds})
       : super(key: key);
   final PublicCubit cubit;
-  String? seconds;
+  int? seconds;
   String? moves;
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,12 @@ class MovesTimer extends StatelessWidget {
       children: [
         IconTextWidget(
             icons: Icons.timer_outlined,
-            text: (seconds ?? cubit.seconds.toString()) + "  sec.s"),
+            text: (Duration(
+                    seconds: int.parse(seconds != null
+                        ? seconds.toString()
+                        : cubit.seconds.toString()))
+                .toString()
+                .substring(0, 7))),
         IconTextWidget(
             icons: Icons.directions_walk_outlined,
             text: moves ?? cubit.moves.toString())

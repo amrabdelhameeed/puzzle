@@ -94,9 +94,9 @@ class DBhelper {
   //   );
   // }
 
-  Future<int> deleteAllscores() async {
+  Future<void> deleteAllscores() async {
     final db = await instance.database;
-    return db!.delete(
+    db!.delete(
       'score',
     );
   }
