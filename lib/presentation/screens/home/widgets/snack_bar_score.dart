@@ -22,7 +22,7 @@ class SnackBarScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: size.height * 0.3,
+      height: size.height * 0.4,
       width: size.width,
       child: Column(
         children: [
@@ -48,7 +48,7 @@ class SnackBarScore extends StatelessWidget {
               },
               widget: Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 8),
+                margin: EdgeInsets.symmetric(horizontal: 2),
                 child: Text(
                   "Play Again",
                   textAlign: TextAlign.center,

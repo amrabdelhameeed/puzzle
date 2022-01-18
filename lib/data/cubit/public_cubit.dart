@@ -36,7 +36,7 @@ class PublicCubit extends Cubit<PublicState> {
 //fun to know if the user won or not
   void isListsEqual(List<TileModel> list) {
     int s = 0;
-    for (var i = 0; i < listOfTiles!.length; i++) {
+    for (int i = 0; i < listOfTiles!.length; i++) {
       if (i != list[i].id! - 1) {
         s = i;
       }
@@ -54,7 +54,6 @@ class PublicCubit extends Cubit<PublicState> {
             // if (seconds % 15 == 0) {
             //   pressSaveTiles();
             // }
-
             emit(PublicLoaded());
           })
         : {timer!.cancel(), seconds = 0, moves = 0};
