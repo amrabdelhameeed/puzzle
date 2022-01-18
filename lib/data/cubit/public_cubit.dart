@@ -77,41 +77,79 @@ class PublicCubit extends Cubit<PublicState> {
         listOfTiles!.indexWhere((element) => element.id == tileModel.id);
     int sum = indexOfMovingTile - indexOfPressedTile;
     sum = sqrt(sum * sum).toInt(); //to get only positive values
-    if (tileModel.id != 16 && (((sum == 1)) || sum == 4)) {
-      if (indexOfPressedTile - indexOfMovingTile == 1 &&
-              indexOfPressedTile % 4 == 0 ||
-          indexOfMovingTile - indexOfPressedTile == 1 &&
-              indexOfMovingTile % 4 == 0) {
-      } else {
-        swap(indexOfMovingTile, indexOfPressedTile);
-        moves++;
+    if (tileModel.id != 16) {
+      if (sum == 1) {
+        if (indexOfPressedTile > indexOfMovingTile &&
+            indexOfPressedTile % 4 != 0) {
+          swap(indexOfMovingTile, indexOfPressedTile);
+          moves++;
+        } else if (indexOfPressedTile < indexOfMovingTile &&
+            indexOfMovingTile % 4 != 0) {
+          swap(indexOfMovingTile, indexOfPressedTile);
+          moves++;
+        }
+      } else if (sum % 4 == 0) {
+        if (sum == 4) {
+          swap(indexOfMovingTile, indexOfPressedTile);
+          moves++;
+        } else if (sum == 8) {
+          if (indexOfPressedTile > indexOfMovingTile) {
+            swap(indexOfMovingTile, indexOfMovingTile + 4);
+            swap(indexOfMovingTile + 4, indexOfMovingTile + 8);
+            moves++;
+          } else {
+            swap(indexOfMovingTile, indexOfMovingTile - 4);
+            swap(indexOfMovingTile - 4, indexOfMovingTile - 8);
+            moves++;
+          }
+        } else if (sum == 12) {
+          if (indexOfPressedTile > indexOfMovingTile) {
+            swap(indexOfMovingTile, indexOfMovingTile + 4);
+            swap(indexOfMovingTile + 4, indexOfMovingTile + 8);
+            swap(indexOfMovingTile + 8, indexOfMovingTile + 12);
+            moves++;
+          } else {
+            swap(indexOfMovingTile, indexOfMovingTile - 4);
+            swap(indexOfMovingTile - 4, indexOfMovingTile - 8);
+            swap(indexOfMovingTile - 8, indexOfMovingTile - 12);
+            moves++;
+          }
+        }
+      } else if (sum == 2) {
+        if (indexOfMovingTile < indexOfPressedTile &&
+            (indexOfMovingTile + 1) % 4 != 0 &&
+            (indexOfMovingTile + 2) % 4 != 0) {
+          swap(indexOfMovingTile, indexOfMovingTile + 1);
+          swap(indexOfMovingTile + 1, indexOfMovingTile + 2);
+          moves++;
+        } else if (indexOfMovingTile > indexOfPressedTile &&
+            (indexOfPressedTile + 1) % 4 != 0 &&
+            (indexOfPressedTile + 2) % 4 != 0) {
+          swap(indexOfMovingTile, indexOfMovingTile - 1);
+          swap(indexOfMovingTile - 1, indexOfMovingTile - 2);
+          moves++;
+        }
+      } else if (sum == 3) {
+        if ((indexOfMovingTile % 4 == 0) &&
+            indexOfMovingTile < indexOfPressedTile) {
+          swap(indexOfMovingTile, indexOfMovingTile + 1);
+
+          swap(indexOfMovingTile + 1, indexOfMovingTile + 2);
+
+          swap(indexOfMovingTile + 2, indexOfMovingTile + 3);
+          moves++;
+        } else if ((indexOfPressedTile % 4 == 0) &&
+            indexOfMovingTile > indexOfPressedTile) {
+          swap(indexOfMovingTile, indexOfMovingTile - 1);
+
+          swap(indexOfMovingTile - 1, indexOfMovingTile - 2);
+
+          swap(indexOfMovingTile - 2, indexOfMovingTile - 3);
+          moves++;
+        }
       }
     }
-    if ((indexOfMovingTile % 4 == 0) &&
-        sum == 3 &&
-        indexOfMovingTile < indexOfPressedTile) {
-      swap(indexOfMovingTile, indexOfMovingTile + 1);
 
-      swap(indexOfMovingTile + 1, indexOfMovingTile + 2);
-
-      swap(indexOfMovingTile + 2, indexOfMovingTile + 3);
-      moves++;
-// swap(indexOfMovingTile, indexOfPressedTile);
-      // swap(indexOfMovingTile, indexOfPressedTile);
-    }
-
-    if ((indexOfPressedTile % 4 == 0) &&
-        sum == 3 &&
-        indexOfMovingTile > indexOfPressedTile) {
-      swap(indexOfMovingTile, indexOfMovingTile - 1);
-
-      swap(indexOfMovingTile - 1, indexOfMovingTile - 2);
-
-      swap(indexOfMovingTile - 2, indexOfMovingTile - 3);
-      moves++;
-// swap(indexOfMovingTile, indexOfPressedTile);
-      // swap(indexOfMovingTile, indexOfPressedTile);
-    }
     emit(PublicLoaded(listOfTiles!));
     isListsEqual(listOfTiles!);
   }
