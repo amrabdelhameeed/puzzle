@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.puzzle_test_12_1_2022">
    <application
-        android:label="puzzle_test_12_1_2022"
+        android:label="puzzle"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

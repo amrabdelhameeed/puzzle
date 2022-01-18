@@ -51,17 +51,48 @@ class Home extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              scaffoldKey.currentState!.openDrawer();
-                            },
-                            icon: const Icon(Icons.list)),
-                        const CustomTextWidget(
-                          fontSize: 40,
-                          text: "Puzzle",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                                tooltip: "Score Board",
+                                onPressed: () {
+                                  scaffoldKey.currentState!.openDrawer();
+                                },
+                                icon: const Icon(
+                                  Icons.list,
+                                  size: 30,
+                                )),
+                            const CustomTextWidget(
+                              fontSize: 40,
+                              text: "Puzzle",
+                            ),
+                          ],
                         ),
+                        IconButton(
+                            tooltip: "Save the current game",
+                            onPressed: () {
+                              cubit.pressSaveTiles();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                      duration: Duration(
+                                        seconds: 1,
+                                      ),
+                                      content: SizedBox(
+                                        height: 30,
+                                        child: Center(
+                                            child: Text(
+                                          "Saved !",
+                                          style: TextStyle(fontSize: 30),
+                                        )),
+                                      )));
+                            },
+                            icon: const Icon(
+                              Icons.save_rounded,
+                              size: 32,
+                            ))
                       ],
                     ),
                     TilesContainer(cubit: cubit),
@@ -74,14 +105,14 @@ class Home extends StatelessWidget {
                           fontSize: 25,
                           text: "Shuffle Tiles",
                         )),
-                    MarginWidget(isVertical: true, dividedMargin: 10),
+                    MarginWidget(isVertical: true, dividedMargin: 25),
                     CustomElevatedButton(
                         onPressed: () {
                           cubit.generateTilesforTest();
                         },
                         widget: const CustomTextWidget(
                           fontSize: 25,
-                          text: "Test Score DB",
+                          text: "Winning Test",
                         ))
                   ],
                 ),

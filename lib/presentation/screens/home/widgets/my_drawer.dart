@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puzzle_test_12_1_2022/data/cubit/public_cubit.dart';
 import 'package:puzzle_test_12_1_2022/data/models/score_model.dart';
 import 'package:puzzle_test_12_1_2022/presentation/screens/home/constant_widgets/custom_elevated_button.dart';
+import 'package:puzzle_test_12_1_2022/presentation/screens/home/constant_widgets/custom_text_widget.dart';
 
 List<Score> generateList(BuildContext context, PublicCubit cubit) {
   List<Score> list = cubit.users;
@@ -31,36 +32,32 @@ class MyDrawer extends StatelessWidget {
                   .map((s) => Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        padding: EdgeInsets.all(0.5),
                         decoration: BoxDecoration(
                             border: Border.all(width: 2, color: Colors.black),
                             borderRadius: BorderRadius.all(Radius.circular(8))),
-                        height: 80,
+                        height: 100,
                         child: Column(
                           children: [
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      "duration: " +
-                                          (Duration(
-                                                  seconds: int.parse(
-                                                      s.seconds.toString()))
-                                              .toString()
-                                              .substring(0, 7)),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 21),
-                                    ),
+                                  Text(
+                                    "duration: " +
+                                        (Duration(
+                                                seconds: int.parse(
+                                                    s.seconds.toString()))
+                                            .toString()
+                                            .substring(0, 7)),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 19),
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      "moves : " + s.moves.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 21),
-                                    ),
+                                  Text(
+                                    "moves : " + s.moves.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 19),
                                   ),
                                 ],
                               ),
@@ -68,29 +65,19 @@ class MyDrawer extends StatelessWidget {
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      "date : " +
-                                          s.dateTime
-                                              .toString()
-                                              .substring(0, 10),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
+                                  Text(
+                                    "date : " +
+                                        s.dateTime.toString().substring(0, 10),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 20),
                                   ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      "time : " +
-                                          s.dateTime
-                                              .toString()
-                                              .substring(11, 16),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
+                                  Text(
+                                    "time : " +
+                                        s.dateTime.toString().substring(11, 16),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -105,11 +92,13 @@ class MyDrawer extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     width: double.infinity,
                     child: CustomElevatedButton(
-                      onPressed: () {
-                        cubit.deleteAllScores();
-                      },
-                      widget: Text("delete all Scores"),
-                    ),
+                        onPressed: () {
+                          cubit.deleteAllScores();
+                        },
+                        widget: const CustomTextWidget(
+                          fontSize: 25,
+                          text: "delete all Scores",
+                        )),
                   )
                 : Container()
           ],

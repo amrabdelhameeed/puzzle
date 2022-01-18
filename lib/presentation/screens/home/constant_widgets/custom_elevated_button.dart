@@ -11,7 +11,10 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       child: widget,
-      style: ElevatedButton.styleFrom(primary: Colors.black),
+      style: ElevatedButton.styleFrom(
+          primary: Colors.black,
+          minimumSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.08)),
     );
   }
 }

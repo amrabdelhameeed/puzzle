@@ -28,7 +28,7 @@ class TilesContainer extends StatelessWidget {
                                   0, 3), // changes position of shadow
                             ),
                           ],
-                          color: e.value.color,
+                          color: colors[e.value.color!],
                           borderRadius:
                               const BorderRadius.all(Radius.circular(25))),
                       height: MediaQuery.of(context).size.height / 10,

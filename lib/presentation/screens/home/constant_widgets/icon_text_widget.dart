@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'custom_text_widget.dart';
 
 class IconTextWidget extends StatelessWidget {
   final IconData icons;
   final String text;
-
   const IconTextWidget({Key? key, required this.icons, required this.text})
       : super(key: key);
   @override
@@ -18,7 +16,7 @@ class IconTextWidget extends StatelessWidget {
             icons,
             size: 30,
           ),
-          CustomTextWidget(fontSize: 20, text: text),
+          CustomTextWidget(fontSize: 25, text: text),
         ],
       ),
     );

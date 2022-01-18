@@ -52,7 +52,7 @@ class SnackBarScore extends StatelessWidget {
                 child: Text(
                   "Play Again",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 25, color: Colors.white),
                 ),
               ))
         ],

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:puzzle_test_12_1_2022/data/models/score_model.dart';
-import 'package:puzzle_test_12_1_2022/database/database_helper.dart';
+import 'package:puzzle_test_12_1_2022/database/database_helper_for_list_of_tiles.dart';
+import 'package:puzzle_test_12_1_2022/database/database_helper_for_score.dart';
 import '../models/generate_tiles.dart';
 import '../models/tile_model.dart';
 part 'public_state.dart';
@@ -29,6 +30,7 @@ class PublicCubit extends Cubit<PublicState> {
   void generateNewTiles() {
     timerFun(TimerModes.stop);
     listOfTiles = tilesListCubit();
+    pressSaveTiles();
   }
 
 //fun to know if the user won or not
@@ -49,7 +51,11 @@ class PublicCubit extends Cubit<PublicState> {
     timerModes == TimerModes.start
         ? timer = Timer.periodic(const Duration(seconds: 1), (t) {
             seconds++;
-            emit(PublicLoaded(listOfTiles!));
+            // if (seconds % 15 == 0) {
+            //   pressSaveTiles();
+            // }
+
+            emit(PublicLoaded());
           })
         : {timer!.cancel(), seconds = 0, moves = 0};
   }
@@ -57,10 +63,12 @@ class PublicCubit extends Cubit<PublicState> {
   List<TileModel> tilesListCubit() {
     listOfTiles = generatedTiles.generatedTiles();
     listOfTiles!.shuffle();
-    //   timerFun(0);
     moves = 0;
+    if (timer != null) {
+      timerFun(TimerModes.stop);
+    }
     timerFun(TimerModes.start);
-    emit(PublicLoaded(listOfTiles!));
+    emit(PublicLoaded());
     return listOfTiles!;
   }
 
@@ -150,7 +158,7 @@ class PublicCubit extends Cubit<PublicState> {
       }
     }
 
-    emit(PublicLoaded(listOfTiles!));
+    emit(PublicLoaded());
     isListsEqual(listOfTiles!);
   }
 
@@ -162,7 +170,7 @@ class PublicCubit extends Cubit<PublicState> {
     await dba.getAllscores().then((value) {
       users = [];
       value.asMap().forEach((i, value) {
-        if (i < 6) {
+        if (i < 9) {
           users.add(value);
         }
       });
@@ -188,6 +196,78 @@ class PublicCubit extends Cubit<PublicState> {
     emit(DeleteAllScoresState());
     db = DBhelper.instance;
     getAllScores();
+  }
+
+  // db for tiles
+
+  ///// data base functions
+  DBhelperForTiles db2 = DBhelperForTiles.instance;
+  Future<List<TileModel>> getAlltilesCubit() async {
+    var dba = DBhelperForTiles.instance;
+    listOfTiles = [];
+    moves = 0;
+    timerFun(TimerModes.start);
+    await dba.getAlltiles().then((value) {
+      value.asMap().forEach((i, value) {
+        listOfTiles!.add(value);
+      });
+      listOfTiles!.isNotEmpty
+          ? {seconds = listOfTiles!.last.id!, moves = listOfTiles!.last.color!}
+          : null;
+    });
+    listOfTiles!.isNotEmpty
+        ? {listOfTiles!.removeAt(listOfTiles!.length - 1)}
+        : null;
+    emit(NewTileCreated());
+
+    return listOfTiles!.isEmpty ? tilesListCubit() : listOfTiles!;
+  }
+
+  // void initDb() {
+  //   getAllScores().then((value) {
+  //           users = value;
+  //   });
+  // }
+
+  void createTile({required int id, required int color}) {
+    db2 = DBhelperForTiles.instance;
+    db2.createtile(TileModel(id: id, color: color));
+    emit(NewScoreCreated());
+    //  getAlltilesCubit();
+  }
+
+  void deleteAlltiles() {
+    db2.deleteAllTileModels();
+    emit(DeleteAllScoresState());
+    db2 = DBhelperForTiles.instance;
+    emit(NewTileCreated());
+
+    //  getAlltilesCubit();
+  }
+
+  void storeAllListOfTiles() {
+    db2 = DBhelperForTiles.instance;
+    listOfTiles!.forEach((element) {
+      createTile(id: element.id!, color: element.color!);
+    });
+    createTile(id: seconds, color: moves);
+    emit(NewTileCreated());
+  }
+
+  void opendb() {
+    db2 = DBhelperForTiles.instance;
+    getAlltilesCubit();
+    emit(NewTileCreated());
+  }
+
+  void pressSaveTiles() {
+    // db2 = DBhelperForTiles.instance;
+    // deleteAlltiles();
+    db2 = DBhelperForTiles.instance;
+    deleteAlltiles();
+    storeAllListOfTiles();
+    emit(NewTileCreated());
+    print(listOfTiles!.first.id);
   }
 }
 

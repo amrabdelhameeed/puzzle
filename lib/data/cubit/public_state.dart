@@ -12,11 +12,10 @@ class WinningState extends PublicState {
   WinningState(this.isWinning, this.moves, this.seconds);
 }
 
-class PublicLoaded extends PublicState {
-  final List<TileModel> listOfTiles;
-  PublicLoaded(this.listOfTiles);
-}
+class PublicLoaded extends PublicState {}
 
 class NewScoreCreated extends PublicState {}
+
+class NewTileCreated extends PublicState {}
 
 class DeleteAllScoresState extends PublicState {}
